@@ -18,7 +18,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <SideTab />
-        <div className="ml-44 bg-main w-full">{children}</div>
+        <div className="ml-44 bg-main w-full m-2 rounded-xl border-2 border-main overflow-auto">
+          {children}
+        </div>
       </body>
     </html>
   )

@@ -10,6 +10,9 @@ module.exports = {
       backgroundColor: {
         main: '#F2F2F2',
       },
+      borderColor: {
+        main: '#E8EDF1',
+      },
     },
   },
   plugins: [],
