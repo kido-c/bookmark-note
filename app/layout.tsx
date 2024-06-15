@@ -1,6 +1,8 @@
-import type { Metadata } from 'next'
-import './globals.css'
 import React from 'react'
+import type { Metadata } from 'next'
+
+import './globals.css'
+import SideTab from '@/app/components/SideTab'
 
 export const metadata: Metadata = {
   title: 'Bookmark Note',
@@ -14,7 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SideTab />
+        <div className="ml-44 bg-main w-full m-2 rounded-xl border-2 border-main overflow-auto">
+          {children}
+        </div>
+      </body>
     </html>
   )
 }
