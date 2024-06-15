@@ -3,5 +3,5 @@ export default function Page() {
     <div>
       <h1>Hello, Next.js!</h1>
     </div>
-  );
+  )
 }
