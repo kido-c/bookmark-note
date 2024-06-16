@@ -22,7 +22,7 @@ export default function BookmarkItem({
   url = 'https://noonnu.cc/posts/9285',
 }: Props) {
   return (
-    <Link href={`/${id}`}>
+    <Link href={`/bookmarks/${id}`}>
       <div className="w-72 h-32 relative border-2 rounded-2xl border-main bg-white py-2 px-4 cursor-pointer shadow-bookmark hover:bg-sub">
         <div className="flex-1 flex-col items-center justify-around font-semibold">
           <div className="flex gap-2">

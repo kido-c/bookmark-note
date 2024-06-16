@@ -8,7 +8,7 @@ export default function Bookmarkslayout({
   children: React.ReactNode
 }>) {
   return (
-    <div>
+    <div className="h-fit">
       <Header />
       {children}
     </div>
