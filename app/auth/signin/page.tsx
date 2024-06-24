@@ -1,17 +1,30 @@
 'use client'
+
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 
-interface SigninForm {
+export interface SigninForm {
   email: string
   password: string
 }
 
 export default function SigninPage() {
+  const router = useRouter()
   const { register, handleSubmit } = useForm<SigninForm>()
 
-  const onSubmit = (data: SigninForm) => {
-    console.log(data)
+  const onSubmit = async (data: SigninForm) => {
+    const res = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    })
+
+    if (!res?.error) {
+      router.push('/')
+      router.refresh()
+    }
   }
 
   return (
