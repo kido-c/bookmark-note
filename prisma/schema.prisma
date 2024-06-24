@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql" 
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id   Int      @id @default(autoincrement())
+  username  String
+  password  String
+  email     String
+  created_at DateTime @default(now())
+  bookmarks Bookmark[]
+}
+
+model Bookmark {
+  bookmark_id Int       @id @default(autoincrement())
+  user_id     Int
+  category_id Int
+  url         String
+  title       String
+  description String?
+  created_at  DateTime @default(now())
+  user        User      @relation(fields: [user_id], references: [user_id])
+  category    Category  @relation(fields: [category_id], references: [category_id])
+  tags        BookmarkTag[]
+}
+
+model Category {
+  category_id   Int       @id @default(autoincrement())
+  category_name String
+  bookmarks     Bookmark[]
+}
+
+model Tag {
+  tag_id   Int       @id @default(autoincrement())
+  tag_name String
+  bookmarks BookmarkTag[]
+}
+
+model BookmarkTag {
+  bookmark_id Int
+  tag_id      Int
+  bookmark    Bookmark @relation(fields: [bookmark_id], references: [bookmark_id])
+  tag         Tag      @relation(fields: [tag_id], references: [tag_id])
+
+  @@id([bookmark_id, tag_id])
+}
