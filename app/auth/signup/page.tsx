@@ -14,7 +14,7 @@ export default function SignupPage() {
   const { register, handleSubmit } = useForm<SignupForm>()
 
   const onSubmit = (data: SignupForm) => {
-    console.log(data)
+    fetch('/api/auth/signup', { body: JSON.stringify(data), method: 'POST' })
   }
 
   return (

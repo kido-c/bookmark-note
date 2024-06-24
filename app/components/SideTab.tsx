@@ -1,6 +1,9 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { useSession, signOut } from 'next-auth/react'
 
 import kanbanIcon from '@/app/assets/icons/kanban.png'
 import folderIcon from '@/app/assets/icons/folder.png'
@@ -21,6 +24,8 @@ const HEADER_LIST = [
 ]
 
 export default function SideTab() {
+  const { data: session } = useSession()
+
   return (
     <div className="h-full fixed bg-white">
       <div className="w-44 h-full flex-col justify-center content-center">
@@ -39,6 +44,8 @@ export default function SideTab() {
             <span className="ml-3">{header.title}</span>
           </Link>
         ))}
+        {!!session && <button onClick={() => signOut()}>Logout</button>}
+        {!session && <Link href="/auth/signin">Login</Link>}
       </div>
     </div>
   )
