@@ -1,15 +1,10 @@
 // app/api/bookmarks/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 
-import prisma from '../../lib/prisma'
+import { getRandomDarkColor, lightenColor } from '@/app/utils/colors'
+import { PostBookmarkRequest } from '@/app/types/api'
 
-interface PostBookmarkRequest {
-  url: string
-  name: string
-  tags: string[]
-  category: string
-  description: string
-}
+import prisma from '../../lib/prisma'
 
 export async function GET() {
   // const auth = req.headers.get('Authorization')
@@ -20,13 +15,31 @@ export async function GET() {
 
   try {
     const bookmarks = await prisma.bookmark.findMany({
-      include: {
-        category: true,
-        tags: true,
+      select: {
+        id: true,
+        title: true, // 명시적으로 포함할 필드
+        url: true, // 명시적으로 포함할 필드
+        category: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
       },
     })
 
-    return NextResponse.json(bookmarks)
+    // Transform the bookmarks to include the tags directly
+    const transformedBookmarks = bookmarks.map((bookmark) => ({
+      ...bookmark,
+      tags: bookmark.tags.map((bookmarkTag) => bookmarkTag.tag),
+    }))
+
+    return NextResponse.json(transformedBookmarks)
   } catch (error) {
     return NextResponse.json({ error: 'message' }, { status: 500 })
   }
@@ -36,8 +49,6 @@ export async function POST(req: NextRequest) {
   try {
     const { url, name, tags, category, description }: PostBookmarkRequest =
       await req.json()
-
-    console.log(url, name, tags, category, description)
 
     // 이미 존재하는 url인지 확인
     const alreadyExsistUrl = await prisma.bookmark.findFirst({
@@ -50,12 +61,12 @@ export async function POST(req: NextRequest) {
 
     // 이미 존재하는 카테고리인지 확인, 없다면 생성
     let targetCategory = await prisma.category.findFirst({
-      where: { category_name: category },
+      where: { name: category },
     })
 
     if (!targetCategory) {
       targetCategory = await prisma.category.create({
-        data: { category_name: category },
+        data: { name: category },
       })
     }
 
@@ -63,11 +74,14 @@ export async function POST(req: NextRequest) {
     const targetTags = await Promise.all(
       tags.map(async (tag: string) => {
         let tagRecord = await prisma.tag.findFirst({
-          where: { tag_name: tag },
+          where: { name: tag },
         })
         if (!tagRecord) {
+          const textColor = getRandomDarkColor()
+          const bgColor = lightenColor(textColor)
+
           tagRecord = await prisma.tag.create({
-            data: { tag_name: tag },
+            data: { name: tag, textColor, bgColor },
           })
         }
         return tagRecord
@@ -81,15 +95,15 @@ export async function POST(req: NextRequest) {
         title: name,
         description,
         category: {
-          connect: { category_id: targetCategory.category_id },
+          connect: { id: targetCategory.id },
         },
         user: {
-          connect: { user_id: 1 }, // 예시: user_id를 1로 설정, 실제로는 적절한 user_id를 사용해야 합니다.
+          connect: { id: 1 }, // 예시: user_id를 1로 설정, 실제로는 적절한 user_id를 사용해야 합니다.
         },
         tags: {
           create: targetTags.map((tag) => ({
             tag: {
-              connect: { tag_id: tag.tag_id },
+              connect: { id: tag.id },
             },
           })),
         },
@@ -97,7 +111,7 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json(
-      { success: true, data: newBookmark },
+      { success: true, data: newBookmark.id },
       { status: 201 }
     )
   } catch (error) {
