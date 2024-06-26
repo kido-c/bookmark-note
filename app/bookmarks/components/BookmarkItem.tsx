@@ -17,9 +17,12 @@ export default function BookmarkItem({ id, title, tags, url }: Props) {
             {tags.length > 0 &&
               tags.map((val) => (
                 <div
-                  className={`rounded-3xl px-2 text-[10px]`}
-                  style={{ backgroundColor: val.bgColor, color: val.textColor }}
                   key={val.id}
+                  className={`rounded-3xl px-2 text-[10px]`}
+                  style={{
+                    backgroundColor: val.bgColor,
+                    color: val.textColor,
+                  }}
                 >
                   <span>{val.name}</span>
                 </div>
