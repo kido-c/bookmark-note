@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import prisma from '@/app/lib/prisma'
+import { getRandomDarkColor, lightenColor } from '@/app/utils/colors'
 
 export async function GET() {
   try {
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
 
   const tags = await prisma.tag.findMany()
 
-  const isDuplicate = tags.find((tag) => tag.tag_name === newTag)
+  const isDuplicate = tags.find((tag) => tag.name === newTag)
 
   if (isDuplicate) {
     return NextResponse.json(
@@ -31,13 +32,18 @@ export async function POST(req: NextRequest) {
     )
   }
 
+  const textColor = getRandomDarkColor()
+  const bgColor = lightenColor(textColor)
+
   try {
-    const newCategories = await prisma.tag.create({
+    const newTags = await prisma.tag.create({
       data: {
-        tag_name: newTag,
+        name: newTag,
+        textColor,
+        bgColor,
       },
     })
-    return NextResponse.json(newCategories, { status: 201 })
+    return NextResponse.json(newTags.id, { status: 201 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Error creating newCategory' },
