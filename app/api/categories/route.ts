@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   const categories = await prisma.category.findMany()
 
   const isDuplicate = categories.find(
-    (category) => category.category_name === newCategory
+    (category) => category.name === newCategory
   )
 
   if (isDuplicate) {
@@ -36,10 +36,10 @@ export async function POST(req: NextRequest) {
   try {
     const newCategories = await prisma.category.create({
       data: {
-        category_name: newCategory,
+        name: newCategory,
       },
     })
-    return NextResponse.json(newCategories, { status: 201 })
+    return NextResponse.json(newCategories.id, { status: 201 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Error creating newCategory' },

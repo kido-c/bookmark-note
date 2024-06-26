@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { load } from 'cheerio'
 
-const url = 'https://tailwindcss.com/docs/border-style'
+// const url = 'https://tailwindcss.com/docs/border-style'
 const getOGImage = async (req: any) => {
   const url = req
   const hostname = new URL(req).hostname
@@ -20,10 +20,8 @@ const getOGImage = async (req: any) => {
   return meta
 }
 
-export default async function BookmarkCard() {
+export default async function BookmarkCard({ url }: { url: string }) {
   const data = await getOGImage(url)
-
-  console.log(data)
 
   return (
     <div className="p-2">
