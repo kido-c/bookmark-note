@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import { GetBookmarkResponse } from '@/app/types/api'
 import { formatDate } from '@/app/utils/fomatDate'
+import { revalidateBookmarks } from '@/app/lib/action'
 
 interface Props {
   defaultValues: GetBookmarkResponse
@@ -33,6 +34,7 @@ export default function BookmarkForm({ defaultValues }: Props) {
     )
 
     if (response.status === 200) {
+      revalidateBookmarks()
       alert('수정이 완료되었습니다.')
     }
   }
@@ -89,7 +91,7 @@ export default function BookmarkForm({ defaultValues }: Props) {
           </textarea>
         </div>
       </section>
-      <button type="submit">수정 하기</button>
+      <button type="submit">제출이요</button>
     </form>
   )
 }

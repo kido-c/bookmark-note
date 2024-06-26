@@ -1,13 +1,15 @@
 import React from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 
 import BookmarkItem from '@/app/bookmarks/components/BookmarkItem'
 import { GetBookmarksResponse } from '@/app/types/api'
 import { groupByCategory } from '@/app/utils/groupByCategory'
 
 const getBookmarks = async (): Promise<GetBookmarksResponse[]> => {
-  const response = await axios('http://localhost:3000/api/bookmarks')
-  return response.data
+  const response = await fetch('http://localhost:3000/api/bookmarks', {
+    next: { tags: ['bookmarks'] },
+  })
+  return response.json()
 }
 
 export default async function Bookmarkspage() {
