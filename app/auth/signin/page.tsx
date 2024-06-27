@@ -2,8 +2,6 @@
 
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
 
 export interface SigninForm {
   email: string
@@ -11,21 +9,9 @@ export interface SigninForm {
 }
 
 export default function SigninPage() {
-  const router = useRouter()
   const { register, handleSubmit } = useForm<SigninForm>()
 
-  const onSubmit = async (data: SigninForm) => {
-    const res = await signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    })
-
-    if (!res?.error) {
-      router.push('/')
-      router.refresh()
-    }
-  }
+  const onSubmit = () => {}
 
   return (
     <form
