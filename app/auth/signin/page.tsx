@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 
 export interface SigninForm {
   email: string
@@ -10,8 +11,19 @@ export interface SigninForm {
 
 export default function SigninPage() {
   const { register, handleSubmit } = useForm<SigninForm>()
-
-  const onSubmit = () => {}
+  const router = useRouter()
+  const onSubmit = (data: SigninForm) => {
+    fetch('/api/auth/signin', {
+      body: JSON.stringify(data),
+      method: 'POST',
+    })
+      .then((response) => {
+        return response.json()
+      })
+      .then(() => {
+        router.push('/bookmarks')
+      })
+  }
 
   return (
     <form
