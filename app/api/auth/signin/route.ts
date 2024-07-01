@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { compare } from 'bcrypt'
-import jwt from 'jsonwebtoken'
 
 import prisma from '@/app/lib/prisma'
+import { createSession } from '@/app/lib/action'
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,17 +18,10 @@ export async function POST(req: NextRequest) {
     if (!comparePassword) {
       return NextResponse.json({ error: 'Password not match' }, { status: 401 })
     }
-    const token = jwt.sign(
-      { id: matchUser.id, email: matchUser.email },
-      process.env.JWT_SECRET || 'defaultSecret'
-    )
 
-    return NextResponse.json('sucess', {
-      status: 200,
-      headers: {
-        'Set-Cookie': `token=${token}`,
-      },
-    })
+    createSession(matchUser.id, matchUser.email)
+
+    return NextResponse.json({ data: matchUser.id }, { status: 201 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Error creating newCategory' },

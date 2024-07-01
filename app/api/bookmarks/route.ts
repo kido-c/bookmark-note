@@ -1,20 +1,19 @@
-// app/api/bookmarks/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 
 import { getRandomDarkColor, lightenColor } from '@/app/utils/colors'
 import { PostBookmarkRequest } from '@/app/types/api'
+import { extractTokenFromCookie, verifySession } from '@/app/lib/action'
 
 import prisma from '../../lib/prisma'
 
-export async function GET() {
-  // const auth = req.headers.get('Authorization')
+export async function GET(req: NextRequest) {
+  const token = extractTokenFromCookie(req.headers.getSetCookie()[0])
 
-  // if (!auth) {
-  //   return NextResponse.json({ error: 'Not authorized' }, { status: 401 })
-  // }
+  const verifiedUser = await verifySession(token)
 
   try {
     const bookmarks = await prisma.bookmark.findMany({
+      where: { userId: verifiedUser.id },
       select: {
         id: true,
         title: true, // 명시적으로 포함할 필드
@@ -33,7 +32,6 @@ export async function GET() {
       },
     })
 
-    // Transform the bookmarks to include the tags directly
     const transformedBookmarks = bookmarks.map((bookmark) => ({
       ...bookmark,
       tags: bookmark.tags.map((bookmarkTag) => bookmarkTag.tag),
@@ -49,6 +47,10 @@ export async function POST(req: NextRequest) {
   try {
     const { url, name, tags, category, description }: PostBookmarkRequest =
       await req.json()
+
+    const token = extractTokenFromCookie(req.headers.get('cookie'))
+
+    const verifiedUser = await verifySession(token)
 
     // 이미 존재하는 url인지 확인
     const alreadyExsistUrl = await prisma.bookmark.findFirst({
@@ -98,7 +100,7 @@ export async function POST(req: NextRequest) {
           connect: { id: targetCategory.id },
         },
         user: {
-          connect: { id: 1 }, // 예시: user_id를 1로 설정, 실제로는 적절한 user_id를 사용해야 합니다.
+          connect: { id: verifiedUser.id }, // 예시: user_id를 1로 설정, 실제로는 적절한 user_id를 사용해야 합니다.
         },
         tags: {
           create: targetTags.map((tag) => ({
