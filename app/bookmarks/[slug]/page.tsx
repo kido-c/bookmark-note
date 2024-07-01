@@ -6,7 +6,7 @@ import BookmarkForm from '@/app/bookmarks/[slug]/components/BookmarkForm'
 import { GetBookmarkResponse } from '@/app/types/api'
 
 const getBookmark = async (slug: string): Promise<GetBookmarkResponse> => {
-  const response = await axios(`http://localhost:3000/api/bookmarks/${slug}`)
+  const response = await axios(`${process.env.API_END_POINT}/bookmarks/${slug}`)
   return response.data
 }
 

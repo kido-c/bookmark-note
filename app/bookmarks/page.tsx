@@ -1,13 +1,20 @@
 import React from 'react'
 // import axios from 'axios'
+import { cookies } from 'next/headers'
 
 import BookmarkItem from '@/app/bookmarks/components/BookmarkItem'
 import { GetBookmarksResponse } from '@/app/types/api'
 import { groupByCategory } from '@/app/utils/groupByCategory'
 
 const getBookmarks = async (): Promise<GetBookmarksResponse[]> => {
-  const response = await fetch('http://localhost:3000/api/bookmarks', {
+  const token = cookies().get('session')
+
+  const response = await fetch(`${process.env.API_END_POINT}/bookmarks`, {
     next: { tags: ['bookmarks'] },
+    credentials: 'same-origin',
+    headers: {
+      'Set-Cookie': `session=${token?.value};`,
+    },
   })
   return response.json()
 }
