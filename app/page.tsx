@@ -1,4 +1,5 @@
 import Image from 'next/image'
+
 import landing_img from './assets/images/landing.png'
 
 export default function Page() {
