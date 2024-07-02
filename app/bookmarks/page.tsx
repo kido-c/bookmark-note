@@ -10,7 +10,7 @@ const getBookmarks = async (): Promise<GetBookmarksResponse[]> => {
   const token = cookies().get('session')
 
   const response = await fetch(`${process.env.API_END_POINT}/bookmarks`, {
-    next: { tags: ['bookmarks'] },
+    next: { tags: ['bookmarks', 'token'] },
     credentials: 'same-origin',
     headers: {
       'Set-Cookie': `session=${token?.value};`,

@@ -7,7 +7,7 @@ import { extractTokenFromCookie, verifySession } from '@/app/lib/action'
 import prisma from '../../lib/prisma'
 
 export async function GET(req: NextRequest) {
-  const token = extractTokenFromCookie(req.headers.getSetCookie()[0])
+  const token = await extractTokenFromCookie(req.headers.getSetCookie()[0])
 
   const verifiedUser = await verifySession(token)
 
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     const { url, name, tags, category, description }: PostBookmarkRequest =
       await req.json()
 
-    const token = extractTokenFromCookie(req.headers.get('cookie'))
+    const token = await extractTokenFromCookie(req.headers.get('cookie'))
 
     const verifiedUser = await verifySession(token)
 

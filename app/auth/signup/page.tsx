@@ -14,7 +14,10 @@ export default function SignupPage() {
   const { register, handleSubmit } = useForm<SignupForm>()
 
   const onSubmit = (data: SignupForm) => {
-    fetch('/api/auth/signup', { body: JSON.stringify(data), method: 'POST' })
+    fetch(`${process.env.API_END_POINT}/auth/signup`, {
+      body: JSON.stringify(data),
+      method: 'POST',
+    })
   }
 
   return (

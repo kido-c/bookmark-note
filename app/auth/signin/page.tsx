@@ -3,6 +3,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 export interface SigninForm {
   email: string
@@ -11,18 +12,12 @@ export interface SigninForm {
 
 export default function SigninPage() {
   const { register, handleSubmit } = useForm<SigninForm>()
-  const router = useRouter()
+  const rotuer = useRouter()
   const onSubmit = (data: SigninForm) => {
-    fetch('/api/auth/signin', {
-      body: JSON.stringify(data),
-      method: 'POST',
+    axios.post(`http://localhost:3000/api/auth/signin`, data).then(() => {
+      console.log('sucess', rotuer)
+      rotuer.push('/bookmarks')
     })
-      .then((response) => {
-        return response.json()
-      })
-      .then(() => {
-        router.push('/bookmarks')
-      })
   }
 
   return (

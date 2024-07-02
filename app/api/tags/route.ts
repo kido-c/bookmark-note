@@ -8,7 +8,6 @@ export async function GET() {
     const tag = await prisma.tag.findMany()
     return NextResponse.json(tag)
   } catch (error) {
-    console.log(error)
     return NextResponse.json(
       { error: 'Error fetching categories' },
       { status: 500 }

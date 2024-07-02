@@ -40,9 +40,7 @@ export async function PATCH(
   { params }: { params: { slug: string } }
 ) {
   try {
-    const { id, ...data } = await request.json()
-
-    console.log(id, data, params.slug)
+    const { data } = await request.json()
 
     const curCategory = data.category.name
 

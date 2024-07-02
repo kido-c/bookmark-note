@@ -1,6 +1,7 @@
 import React from 'react'
 import { Noto_Sans_KR } from 'next/font/google'
 import type { Metadata } from 'next'
+import { cookies } from 'next/headers'
 
 import './globals.css'
 import SideTab from '@/app/components/SideTab'
@@ -17,10 +18,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const token = cookies().get('session')?.value
+
   return (
     <html lang="en" className={notoSansKr.className}>
       <body>
-        <SideTab />
+        <SideTab token={token} />
         <div className="ml-44 bg-main w-full m-2 rounded-xl border-2 border-main overflow-auto">
           {children}
         </div>

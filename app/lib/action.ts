@@ -13,11 +13,16 @@ export async function revalidateBookmarks() {
   revalidateTag('bookmarks')
 }
 
+export async function revalidateWithAuth() {
+  console.log('hit')
+  revalidateTag('token')
+}
+
 function checkLastSemi(str: string) {
   return str.slice(-1) === ';'
 }
 
-export function extractTokenFromCookie(cookie: string | null) {
+export async function extractTokenFromCookie(cookie: string | null) {
   if (!cookie) {
     return null
   }
@@ -52,13 +57,13 @@ export async function decrypt(session: string): Promise<User | null> {
 
 export async function verifySession(token: string | null) {
   if (!token) {
-    redirect(`${process.env.API_END_POINT}/auth/signin`)
+    redirect(`${process.env.DOMAIN_HOST_URL}/auth/signin`)
   }
 
   const session = await decrypt(token)
 
   if (!session) {
-    redirect(`${process.env.API_END_POINT}/auth/signin`)
+    redirect(`${process.env.DOMAIN_HOST_URL}/auth/signin`)
   }
 
   return session
@@ -67,6 +72,7 @@ export async function verifySession(token: string | null) {
 export async function createSession(id: number, email: string) {
   const expiresAt = new Date(Date.now() + 60 * 60 * 1000)
   const session = await encrypt({ id, email })
+  console.log('생성')
 
   cookies().set('session', session, {
     // TODO: 추후 인증관련 설정 변경 시 수정
@@ -76,4 +82,8 @@ export async function createSession(id: number, email: string) {
     sameSite: 'lax',
     path: '/',
   })
+}
+
+export async function deleteSession() {
+  cookies().set('session', '', { maxAge: 0 })
 }

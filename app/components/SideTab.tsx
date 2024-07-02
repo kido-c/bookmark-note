@@ -1,5 +1,3 @@
-'use client'
-
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -22,7 +20,7 @@ const HEADER_LIST = [
   },
 ]
 
-export default function SideTab() {
+export default function SideTab({ token }: { token?: string }) {
   return (
     <div className="h-full fixed bg-white">
       <div className="w-44 h-full flex-col justify-center content-center">
@@ -41,6 +39,21 @@ export default function SideTab() {
             <span className="ml-3">{header.title}</span>
           </Link>
         ))}
+        {token ? (
+          <Link
+            href={'/auth/signout'}
+            className="flex content-center justify-center mb-3"
+          >
+            <span className="ml-3">로그아웃</span>
+          </Link>
+        ) : (
+          <Link
+            href={'/auth/signin'}
+            className="flex content-center justify-center mb-3"
+          >
+            <span className="ml-3">로그인</span>
+          </Link>
+        )}
       </div>
     </div>
   )
