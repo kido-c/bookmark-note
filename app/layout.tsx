@@ -4,7 +4,6 @@ import type { Metadata } from 'next'
 
 import './globals.css'
 import SideTab from '@/app/components/SideTab'
-import SessionProvider from '@/app/components/Provider'
 
 export const metadata: Metadata = {
   title: 'Bookmark Note',
@@ -21,12 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={notoSansKr.className}>
       <body>
-        <SessionProvider>
-          <SideTab />
-          <div className="ml-44 bg-main w-full m-2 rounded-xl border-2 border-main overflow-auto">
-            {children}
-          </div>
-        </SessionProvider>
+        <SideTab />
+        <div className="ml-44 bg-main w-full m-2 rounded-xl border-2 border-main overflow-auto">
+          {children}
+        </div>
       </body>
     </html>
   )

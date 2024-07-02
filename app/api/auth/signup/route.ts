@@ -26,14 +26,7 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    if (!newUser) {
-      return NextResponse.json(
-        { error: 'Error creating new user' },
-        { status: 500 }
-      )
-    }
-
-    return NextResponse.json('sucess create user', { status: 201 })
+    return NextResponse.json({ data: newUser.id }, { status: 201 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Error creating newCategory' },

@@ -3,7 +3,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
+import axios from 'axios'
 
 export interface SigninForm {
   email: string
@@ -11,20 +11,15 @@ export interface SigninForm {
 }
 
 export default function SigninPage() {
-  const router = useRouter()
   const { register, handleSubmit } = useForm<SigninForm>()
-
-  const onSubmit = async (data: SigninForm) => {
-    const res = await signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    })
-
-    if (!res?.error) {
+  const router = useRouter()
+  const onSubmit = (data: SigninForm) => {
+    axios.post(`http://localhost:3000/api/auth/signin`, data).then(() => {
       router.push('/')
+      // todo: 서버 컴포넌트에서 쿠키 변경을 감지 못하여 임의 새로고침 실시
+      // 추후 수정 필요
       router.refresh()
-    }
+    })
   }
 
   return (

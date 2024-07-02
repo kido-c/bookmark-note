@@ -6,7 +6,10 @@ const nextConfig = {
         source: '/api/:path*', // API 라우트 경로
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
-          { key: 'Access-Control-Allow-Origin', value: '*' }, // 또는 특정 도메인 예: "http://localhost:3000"
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: `${process.env.API_END_POINT}`,
+          },
           {
             key: 'Access-Control-Allow-Methods',
             value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
