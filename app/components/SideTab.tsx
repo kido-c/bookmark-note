@@ -9,13 +9,13 @@ import { getSession } from '@/app/lib/action'
 const HEADER_LIST = [
   {
     herf: '/',
-    title: 'Go to Main',
+    title: '메인 페이지',
     activeIcon: folderIcon,
     alt: 'main',
   },
   {
     herf: '/bookmarks',
-    title: 'Bookmarks',
+    title: '북마크',
     activeIcon: kanbanIcon,
     alt: 'kanban',
   },
@@ -31,7 +31,7 @@ export default async function SideTab() {
           <Link
             key={header.herf}
             href={header.herf}
-            className="flex content-center justify-center mb-3"
+            className="flex content-center mb-3 ml-8"
           >
             <Image
               src={header.activeIcon}
@@ -42,21 +42,24 @@ export default async function SideTab() {
             <span className="ml-3">{header.title}</span>
           </Link>
         ))}
-        {token ? (
-          <Link
-            href={'/auth/signout'}
-            className="flex content-center justify-center mb-3"
-          >
-            <span className="ml-3">로그아웃</span>
-          </Link>
-        ) : (
-          <Link
-            href={'/auth/signin'}
-            className="flex content-center justify-center mb-3"
-          >
-            <span className="ml-3">로그인</span>
-          </Link>
-        )}
+        <div className="fixed bottom-20 left-6">
+          {token ? (
+            <Link href={'/auth/signout'} className="flex content-center mb-3">
+              <span className="flex justify-center ml-17 px-8 py-2 rounded-3xl border-active border text-main w-32">
+                Logout
+              </span>
+            </Link>
+          ) : (
+            <Link
+              href={'/auth/signin'}
+              className="flex content-center justify-center mb-3"
+            >
+              <span className="flex justify-center ml-17 px-8 py-2 rounded-3xl bg-active text-white w-32">
+                Login
+              </span>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   )
