@@ -3,7 +3,6 @@
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
-import { redirect } from 'next/navigation'
 
 import { User } from '@/app/types/user'
 
@@ -14,7 +13,6 @@ export async function revalidateBookmarks() {
 }
 
 export async function revalidateWithAuth() {
-  console.log('hit')
   revalidateTag('token')
 }
 
@@ -49,30 +47,16 @@ export async function decrypt(session: string): Promise<User | null> {
     const payload = jwt.verify(session, secretKey as string, {
       algorithms: ['HS256'],
     }) as User
+
     return payload
   } catch (error) {
     return null
   }
 }
 
-export async function verifySession(token: string | null) {
-  if (!token) {
-    redirect(`${process.env.DOMAIN_HOST_URL}/auth/signin`)
-  }
-
-  const session = await decrypt(token)
-
-  if (!session) {
-    redirect(`${process.env.DOMAIN_HOST_URL}/auth/signin`)
-  }
-
-  return session
-}
-
 export async function createSession(id: number, email: string) {
   const expiresAt = new Date(Date.now() + 60 * 60 * 1000)
   const session = await encrypt({ id, email })
-  console.log('생성')
 
   cookies().set('session', session, {
     // TODO: 추후 인증관련 설정 변경 시 수정
@@ -84,6 +68,12 @@ export async function createSession(id: number, email: string) {
   })
 }
 
+export async function getSession() {
+  const token = cookies().get('session')?.value
+  if (!token) return null
+  return await decrypt(token)
+}
+
 export async function deleteSession() {
-  cookies().set('session', '', { maxAge: 0 })
+  cookies().set('session', '', { expires: new Date(0) })
 }

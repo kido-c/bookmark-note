@@ -2,14 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { getRandomDarkColor, lightenColor } from '@/app/utils/colors'
 import { PostBookmarkRequest } from '@/app/types/api'
-import { extractTokenFromCookie, verifySession } from '@/app/lib/action'
+import { getSession } from '@/app/lib/action'
 
 import prisma from '../../lib/prisma'
 
-export async function GET(req: NextRequest) {
-  const token = await extractTokenFromCookie(req.headers.getSetCookie()[0])
+export async function GET() {
+  const verifiedUser = await getSession()
 
-  const verifiedUser = await verifySession(token)
+  if (!verifiedUser) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+  }
 
   try {
     const bookmarks = await prisma.bookmark.findMany({
@@ -47,10 +49,11 @@ export async function POST(req: NextRequest) {
   try {
     const { url, name, tags, category, description }: PostBookmarkRequest =
       await req.json()
+    const verifiedUser = await getSession()
 
-    const token = await extractTokenFromCookie(req.headers.get('cookie'))
-
-    const verifiedUser = await verifySession(token)
+    if (!verifiedUser) {
+      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+    }
 
     // 이미 존재하는 url인지 확인
     const alreadyExsistUrl = await prisma.bookmark.findFirst({

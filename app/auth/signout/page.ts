@@ -2,7 +2,6 @@
 
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 
 import { revalidateWithAuth } from '@/app/lib/action'
 
@@ -13,10 +12,8 @@ export default function SignoutPage() {
     return axios.post(`http://localhost:3000/api/auth/signout`)
   }
 
-  useEffect(() => {
-    postSignout().then(() => {
-      revalidateWithAuth()
-      rotuer.push('/')
-    })
-  }, [])
+  postSignout().then(() => {
+    revalidateWithAuth()
+    rotuer.push('/')
+  })
 }

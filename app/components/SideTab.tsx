@@ -4,6 +4,7 @@ import React from 'react'
 
 import kanbanIcon from '@/app/assets/icons/kanban.png'
 import folderIcon from '@/app/assets/icons/folder.png'
+import { getSession } from '@/app/lib/action'
 
 const HEADER_LIST = [
   {
@@ -20,7 +21,9 @@ const HEADER_LIST = [
   },
 ]
 
-export default function SideTab({ token }: { token?: string }) {
+export default async function SideTab() {
+  const token = await getSession()
+
   return (
     <div className="h-full fixed bg-white">
       <div className="w-44 h-full flex-col justify-center content-center">

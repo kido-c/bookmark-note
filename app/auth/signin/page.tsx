@@ -12,11 +12,13 @@ export interface SigninForm {
 
 export default function SigninPage() {
   const { register, handleSubmit } = useForm<SigninForm>()
-  const rotuer = useRouter()
+  const router = useRouter()
   const onSubmit = (data: SigninForm) => {
     axios.post(`http://localhost:3000/api/auth/signin`, data).then(() => {
-      console.log('sucess', rotuer)
-      rotuer.push('/bookmarks')
+      router.push('/')
+      // todo: 서버 컴포넌트에서 쿠키 변경을 감지 못하여 임의 새로고침 실시
+      // 추후 수정 필요
+      router.refresh()
     })
   }
 
