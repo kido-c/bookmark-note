@@ -11,9 +11,11 @@ module.exports = {
         main: '#F2F2F2',
         sub: '#E8EDF1',
         blue: '#CAE2F0',
+        active: '#6667AB',
       },
       borderColor: {
         main: '#E8EDF1',
+        active: '#6667AB',
       },
       textColor: {
         main: '#6667AB',
