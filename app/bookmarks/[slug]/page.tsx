@@ -9,7 +9,7 @@ const getBookmark = async (slug: string): Promise<GetBookmarkResponse> => {
   const token = cookies().get('session')
 
   const response = await fetch(
-    `${process.env.API_END_POINT}/bookmarks/${slug}`,
+    `${process.env.NEXT_PUBLIC_API_END_POINT}/bookmarks/${slug}`,
     {
       next: { tags: ['token'] },
       credentials: 'same-origin',

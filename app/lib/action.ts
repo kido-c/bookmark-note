@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 
 import { User } from '@/app/types/user'
 
-const secretKey = process.env.NEXTAUTH_SECRET
+const secretKey = process.env.NEXT_PUBLIC_NEXTAUTH_SECRET
 
 export async function revalidateBookmarks() {
   revalidateTag('bookmarks')
