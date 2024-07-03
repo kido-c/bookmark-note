@@ -8,7 +8,7 @@ const nextConfig = {
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           {
             key: 'Access-Control-Allow-Origin',
-            value: `/api`,
+            value: '*', // 혹은 'http://ec2-3-36-48-175.ap-northeast-2.compute.amazonaws.com'
           },
           {
             key: 'Access-Control-Allow-Methods',
