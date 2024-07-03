@@ -7,6 +7,11 @@ import { GetBookmarksResponse } from '@/app/types/api'
 import { groupByCategory } from '@/app/utils/groupByCategory'
 
 const getBookmarks = async (): Promise<GetBookmarksResponse[]> => {
+  console.log(
+    'bookmarks page',
+    `${process.env.NEXT_PUBLIC_API_END_POINT}/bookmarks`
+  )
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_END_POINT}/bookmarks`,
     {
