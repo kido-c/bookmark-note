@@ -29,7 +29,7 @@ export default function BookmarkForm({ defaultValues }: Props) {
       return alert('수정된 내용이 없습니다.')
     }
     const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_END_POINT}/bookmarks/${defaultValues.id}`,
+      `/api/bookmarks/${defaultValues.id}`,
       data
     )
 

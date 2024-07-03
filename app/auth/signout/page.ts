@@ -9,7 +9,7 @@ export default function SignoutPage() {
   const rotuer = useRouter()
 
   const postSignout = (): Promise<{ data: string }> => {
-    return axios.post(`${process.env.NEXT_PUBLIC_API_END_POINT}/auth/signout`)
+    return axios.post(`/api/auth/signout`)
   }
 
   postSignout().then(() => {
