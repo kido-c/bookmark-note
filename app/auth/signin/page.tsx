@@ -14,12 +14,15 @@ export default function SigninPage() {
   const { register, handleSubmit } = useForm<SigninForm>()
   const router = useRouter()
   const onSubmit = (data: SigninForm) => {
-    axios.post(`http://localhost:3000/api/auth/signin`, data).then(() => {
-      router.push('/')
-      // todo: 서버 컴포넌트에서 쿠키 변경을 감지 못하여 임의 새로고침 실시
-      // 추후 수정 필요
-      router.refresh()
-    })
+    console.log(data)
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API_END_POINT}/auth/signin`, data)
+      .then(() => {
+        router.push('/')
+        // todo: 서버 컴포넌트에서 쿠키 변경을 감지 못하여 임의 새로고침 실시
+        // 추후 수정 필요
+        router.refresh()
+      })
   }
 
   return (
