@@ -7,6 +7,9 @@ import { createSession } from '@/app/lib/action'
 export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json()
+
+    console.log(email.password)
+
     const matchUser = await prisma.user.findFirst({
       where: { email },
     })
