@@ -3,16 +3,17 @@ name: 🚀 Deploy workflow on production environment
 on:
   push:
     tags:
-      - 'v*.*' # 'v'로 시작하는 모든 태그 패턴
+      - 'v*.*' # master merge로 변경 예정
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
-    environment: production
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout master branch
         uses: actions/checkout@v2
+        with:
+          ref: 'master'
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -36,10 +37,11 @@ jobs:
       - name: Access to Aws
         run: |
           aws deploy create-deployment \
-            --application-name ${{ secret.AWS_CODE_DEPLOY_APP_NAME }} \
-            --deployment-group-name ${{ secret.AWS_CODE_DEPLOY_GROUP_NAME }} \
-            --github-location repository=kidoc/bookmark-note,commitId=${{ github.sha }}
+            --application-name ${{ secrets.AWS_CODE_DEPLOY_APP_NAME }} \
+            --deployment-group-name ${{ secrets.AWS_CODE_DEPLOY_GROUP_NAME }} \
+            --github-location repository=kido-c/bookmark-note,commitId=${{ github.sha }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           AWS_REGION: 'ap-northeast-2'
