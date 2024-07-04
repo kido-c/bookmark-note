@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout master branch
         uses: actions/checkout@v2
+        with:
+          ref: 'master'
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
