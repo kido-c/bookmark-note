@@ -30,6 +30,10 @@ export default function SigninPage() {
     })
   }
 
+  const moveToSignup = () => {
+    router.push('/auth/signup')
+  }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -69,6 +73,7 @@ export default function SigninPage() {
         </button>
         <button
           type="button"
+          onClick={moveToSignup}
           className=" border-active border text-main w-full h-12 rounded-lg  font-semibold"
         >
           회원 가입
