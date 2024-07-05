@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 
 import { matchPassword } from '@/app/utils/validation/matchPassword'
 import { isEmail } from '@/app/utils/validation/isEmail'
-
 interface SignupForm {
   name: string
   email: string
@@ -13,6 +13,7 @@ interface SignupForm {
 }
 
 export default function SignupPage() {
+  const rotuer = useRouter()
   const {
     register,
     handleSubmit,
@@ -25,6 +26,15 @@ export default function SignupPage() {
       body: JSON.stringify(data),
       method: 'POST',
     })
+      .then(() => {
+        alert('회원가입이 완료되었습니다.')
+        rotuer.push('/auth/signin')
+      })
+      .catch((error) => {
+        alert(`회원가입에 실패했습니다.
+      [error code] : ${error.message}
+        `)
+      })
   }
 
   return (
