@@ -20,10 +20,10 @@ export default function MainButtonBox() {
 
   return (
     <div className="flex gap-5">
-      <Button title="시작하기" type="border" handleClick={moveToBookmark} />
+      <Button title="시작하기" style="border" handleClick={moveToBookmark} />
       <Button
         title="확장 프로그램 설치"
-        type="active"
+        style="active"
         handleClick={moveToExtension}
       />
     </div>

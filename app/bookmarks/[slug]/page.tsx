@@ -27,24 +27,35 @@ export default async function BookmarkDetail({
 }: {
   params: { slug: string }
 }) {
-  const bookmark = await getBookmark(params.slug)
+  // const bookmark = await getBookmark(params.slug)
+
+  const bookmark = {
+    id: 1,
+    title: 'title',
+    url: 'https://www.google.com',
+    tags: [
+      { id: 1, name: 'tag1', bgColor: 'black', textColor: 'white' },
+      { id: 2, name: 'tag2', bgColor: 'black', textColor: 'white' },
+    ],
+    category: {
+      name: 'category',
+    },
+  } as GetBookmarkResponse
 
   return (
-    <div className="m-5 flex gap-4">
-      <section className="w-1/2">
-        <BookmarkForm defaultValues={bookmark} />
-        <BookmarkCard url={bookmark.url} />
-      </section>
-      <section>
-        <div className="min-w-sm">
+    <div className="flex justify-between gap-10 w-full px-5">
+      <section className="flex-1">
+        <div className="w-full">
           <iframe
             title="외부 링크"
             src={bookmark.url}
-            width={600}
-            height={600}
-            style={{ borderRadius: '20px' }}
+            style={{ borderRadius: '20px', width: '100%', height: '480px' }}
           />
         </div>
+        <BookmarkCard url={bookmark.url} />
+      </section>
+      <section className="flex-1">
+        <BookmarkForm defaultValues={bookmark} />
       </section>
     </div>
   )
