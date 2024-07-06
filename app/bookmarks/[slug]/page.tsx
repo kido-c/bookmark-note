@@ -28,20 +28,7 @@ export default async function BookmarkDetail({
 }: {
   params: { slug: string }
 }) {
-  // const bookmark = await getBookmark(params.slug)
-
-  const bookmark = {
-    id: 1,
-    title: 'title',
-    url: 'https://www.google.com',
-    tags: [
-      { id: 1, name: 'tag1', bgColor: 'black', textColor: 'white' },
-      { id: 2, name: 'tag2', bgColor: 'black', textColor: 'white' },
-    ],
-    category: {
-      name: 'category',
-    },
-  } as GetBookmarkResponse
+  const bookmark = await getBookmark(params.slug)
 
   return (
     <div className="flex justify-between gap-10 w-full px-5">

@@ -28,7 +28,6 @@ export default function BookmarkForm({ defaultValues }: Props) {
   }
 
   const onSubmit = async (data: FormData) => {
-    console.log(data, defaultValues)
     if (
       data.category.name === defaultValues.category.name &&
       data.description === defaultValues.description &&
@@ -36,6 +35,7 @@ export default function BookmarkForm({ defaultValues }: Props) {
     ) {
       return alert('수정된 내용이 없습니다.')
     }
+
     axios
       .patch(`/api/bookmarks/${defaultValues.id}`, data)
       .then(() => {
@@ -96,9 +96,8 @@ export default function BookmarkForm({ defaultValues }: Props) {
           <textarea
             {...register('description')}
             className=" h-64 p-2 rounded-lg"
-          >
-            {defaultValues.description}
-          </textarea>
+            defaultValue={defaultValues.description || ''}
+          />
         </div>
       </section>
       <section className="">

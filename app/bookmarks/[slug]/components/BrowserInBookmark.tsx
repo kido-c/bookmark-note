@@ -10,22 +10,35 @@ export default function BrowserInBookmark({ url }: Props) {
   const [isLoadContent, setIsLoadContent] = useState(false)
 
   const checkXFrameOptions = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_END_POINT}/checkurl?url=${encodeURIComponent(url)}`,
-      { method: 'GET' }
-    )
-    const data = await response.json()
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_END_POINT}/checkurl?url=${encodeURIComponent(url)}`,
+        { method: 'GET' }
+      )
 
-    return data
+      const data = await response.json()
+
+      return data
+    } catch (error) {
+      console.log(error)
+      throw new Error('Error checkXFrameOptions')
+    }
   }
 
   useEffect(() => {
-    checkXFrameOptions().then((res) => {
-      setIsLoading(false)
-      res.xFrameOptions === 'not set'
-        ? setIsLoadContent(true)
-        : setIsLoadContent(false)
-    })
+    checkXFrameOptions()
+      .then((res) => {
+        console.log('hit res')
+        setIsLoading(false)
+        res.xFrameOptions === 'not set'
+          ? setIsLoadContent(true)
+          : setIsLoadContent(false)
+      })
+      .catch(() => {
+        console.log('hit')
+        setIsLoading(false)
+        setIsLoadContent(false)
+      })
   }, [])
 
   return (
