@@ -5,6 +5,7 @@ import { headers } from 'next/headers'
 import BookmarkItem from '@/app/bookmarks/components/BookmarkItem'
 import { GetBookmarksResponse } from '@/app/types/api'
 import { groupByCategory } from '@/app/utils/groupByCategory'
+import CategoryBorder from '@/app/components/CategoryBorder'
 
 const getBookmarks = async (): Promise<GetBookmarksResponse[]> => {
   const response = await fetch(
@@ -23,19 +24,19 @@ export default async function Bookmarkspage() {
 
   return (
     <div className="m-5 rounded-xl bg-white ">
-      <div className="flex gap-3 p-4">
+      <div className="flex gap-3 p-4 overflow-x-auto">
         {bookmarks &&
           Object.entries(groupByCategory(bookmarks)).map(
             ([category, bookmarks]) =>
               bookmarks.length > 0 && (
                 <div
-                  className="w-80 bg-white relative  rounded-sm rounded-b-xl hover:border-x border-red-40"
+                  className="w-80 bg-white relative  rounded-sm rounded-b-xl border-red-40"
                   key={category}
                 >
-                  <div className="bg-red-400 rounded-t-2xl h-2 w-full absolute -top-1" />
+                  <CategoryBorder />
                   <div className="px-4 pb-4">
                     <div className="mb-4 text-xl font-bold mt-2">
-                      {category}
+                      {category ? category : '카테고리 미정'}
                     </div>
                     <div className="flex flex-col justify-center items-center gap-5 mb-4">
                       {bookmarks.map((bookmark) => (

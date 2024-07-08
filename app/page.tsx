@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import MainButtonBox from '@/app/components/MainButtonBox'
+
 import landing_img from './assets/images/landing.png'
 
 export default function Page() {
@@ -12,15 +14,9 @@ export default function Page() {
         <br />
         개인용 북마크 관리 프로그램입니다.
       </div>
-      <div className="mt-20 flex gap-5">
-        <button className="bg-active text-white font-semibold px-4 py-2 mt-4 rounded-md ">
-          시작하기
-        </button>
-        <button className=" border-active border-2 text-main font-semibold px-4 py-2 mt-4 rounded-md ">
-          확장 프로그램 설치
-        </button>
+      <div className="mt-20">
+        <MainButtonBox />
       </div>
-
       <div className="w-4/5 h-96 mt-20 relative before: opacity-80 rounded-3xl">
         <Image
           src={landing_img}
