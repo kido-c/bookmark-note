@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import BookmarkCard from '@/app/bookmarks/[slug]/components/BookmarkCard'
 import BookmarkForm from '@/app/bookmarks/[slug]/components/BookmarkForm'
 import { GetBookmarkResponse } from '@/app/types/api'
+import BrowserInBookmark from '@/app/bookmarks/[slug]/components/BrowserInBookmark'
 
 const getBookmark = async (slug: string): Promise<GetBookmarkResponse> => {
   const token = cookies().get('session')
@@ -30,21 +31,15 @@ export default async function BookmarkDetail({
   const bookmark = await getBookmark(params.slug)
 
   return (
-    <div className="m-5 flex gap-4">
-      <section className="w-1/2">
-        <BookmarkForm defaultValues={bookmark} />
+    <div className="flex justify-between gap-10 w-full px-5">
+      <section className="flex-1">
+        <div className="w-full">
+          <BrowserInBookmark url={bookmark.url} />
+        </div>
         <BookmarkCard url={bookmark.url} />
       </section>
-      <section>
-        <div className="min-w-sm">
-          <iframe
-            title="외부 링크"
-            src={bookmark.url}
-            width={600}
-            height={600}
-            style={{ borderRadius: '20px' }}
-          />
-        </div>
+      <section className="flex-1">
+        <BookmarkForm defaultValues={bookmark} />
       </section>
     </div>
   )

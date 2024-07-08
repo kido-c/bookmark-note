@@ -40,3 +40,12 @@ export function lightenColor(hex: string): string {
 
   return rgbToHex(r, g, b)
 }
+
+export function getRandomLightColor(): string {
+  // 밝은 색상을 랜덤으로 생성합니다.
+  const r = getRandomInt(150, 255) // R 값 (150-255 사이의 랜덤 값)
+  const g = getRandomInt(150, 255) // G 값 (150-255 사이의 랜덤 값)
+  const b = getRandomInt(150, 255) // B 값 (150-255 사이의 랜덤 값)
+
+  return rgbToHex(r, g, b)
+}
