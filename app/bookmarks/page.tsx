@@ -27,7 +27,7 @@ export default async function Bookmarkspage() {
       <div className="flex gap-3 p-4 overflow-x-auto">
         {bookmarks &&
           Object.entries(groupByCategory(bookmarks)).map(
-            ([category, bookmarks], idx) =>
+            ([category, bookmarks]) =>
               bookmarks.length > 0 && (
                 <div
                   className="w-80 bg-white relative  rounded-sm rounded-b-xl border-red-40"
