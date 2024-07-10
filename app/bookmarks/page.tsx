@@ -30,10 +30,12 @@ export default async function Bookmarkspage() {
   return (
     <div className="m-5 rounded-xl bg-white ">
       <div className="flex gap-3 p-4">
-        <DragDropBoard
-          bookmarksMap={makeBookmarksMapByCategory(bookmarks)}
-          categories={getCatgories(bookmarks)}
-        />
+        {bookmarks.length > 0 && (
+          <DragDropBoard
+            bookmarksMap={makeBookmarksMapByCategory(bookmarks)}
+            categories={getCatgories(bookmarks)}
+          />
+        )}
       </div>
     </div>
   )

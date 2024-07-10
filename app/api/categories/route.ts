@@ -33,14 +33,13 @@ export async function POST(req: NextRequest) {
   }
 
   // orderIdx 마지막 index에서 추가
-  const lastOrderIndex = categories.sort((a, b) => b.orderIdx - a.orderIdx)[0]
-    .orderIdx
+  const lastOrderIndex = categories.sort((a, b) => b.orderIdx - a.orderIdx)
 
   try {
     const newCategories = await prisma.category.create({
       data: {
         name: newCategory,
-        orderIdx: lastOrderIndex + 1,
+        orderIdx: lastOrderIndex ? lastOrderIndex[0].orderIdx + 1 : 0,
       },
     })
     return NextResponse.json(newCategories.id, { status: 201 })
