@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 외부 이미지 소스 참조
+  reactStrictMode: false,
+  // 외부 이미지 소스 참조r
   images: {
     remotePatterns: [
       {

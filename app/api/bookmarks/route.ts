@@ -20,10 +20,12 @@ export async function GET() {
         id: true,
         title: true, // 명시적으로 포함할 필드
         url: true, // 명시적으로 포함할 필드
+        orderIdx: true,
         category: {
           select: {
             id: true,
             name: true,
+            orderIdx: true,
           },
         },
         tags: {
