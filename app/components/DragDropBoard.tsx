@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react'
 import { DragDropContext, Droppable, type DropResult } from '@hello-pangea/dnd'
 import axios from 'axios'
 
+import { revalidateBookmarks } from '@/app/lib/action'
 import DragDropColumn from '@/app/components/DragDropColumn'
 import { BookmarksMapByCategory } from '@/app/utils/groupByCategory'
 import {
@@ -57,6 +58,7 @@ export default function DragDropBoard({
             current: sourceColumIdx,
             next: destinationColumIdx,
           })
+          .then(() => revalidateBookmarks())
           .catch(() => alert('변경이 실패하였습니다. 다시 시도해주세요'))
 
         return
@@ -79,6 +81,7 @@ export default function DragDropBoard({
         .patch(`/api/bookmarks/switch-order`, {
           orderBookmarks: orderedByCategory,
         })
+        .then(() => revalidateBookmarks())
         .catch(() => alert('변경이 실패하였습니다. 다시 시도해주세요'))
     },
     [bookmarksMap, categories]

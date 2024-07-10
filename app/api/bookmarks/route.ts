@@ -8,7 +8,7 @@ import prisma from '../../lib/prisma'
 
 export async function GET() {
   const verifiedUser = await getSession()
-  console.log('hit', verifiedUser)
+
   if (!verifiedUser) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
@@ -35,7 +35,7 @@ export async function GET() {
         },
       },
     })
-    console.log('hit', bookmarks)
+
     const transformedBookmarks = bookmarks.map((bookmark) => ({
       ...bookmark,
       tags: bookmark.tags.map((bookmarkTag) => bookmarkTag.tag),
