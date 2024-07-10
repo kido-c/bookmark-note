@@ -27,6 +27,8 @@ const getBookmarks = async (): Promise<GetBookmarksResponse[]> => {
 export default async function Bookmarkspage() {
   const bookmarks = await getBookmarks()
 
+  console.log(bookmarks)
+
   return (
     <div className="m-5 rounded-xl bg-white ">
       <div className="flex gap-3 p-4">
