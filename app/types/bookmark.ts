@@ -17,4 +17,5 @@ export interface Tag {
 export interface Category {
   id: number
   name: string
+  orderIdx: number
 }
