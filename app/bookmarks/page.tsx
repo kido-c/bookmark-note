@@ -1,7 +1,6 @@
 import React from 'react'
 // import axios from 'axios'
 import { cookies } from 'next/headers'
-import { headers } from 'next/headers'
 
 import DragDropBoard from '@/app/components/DragDropBoard'
 import { GetBookmarksResponse } from '@/app/types/api'

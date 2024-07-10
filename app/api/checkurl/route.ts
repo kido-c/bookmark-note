@@ -1,15 +1,15 @@
 import http from 'http'
 import https from 'https'
 
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(req.url)
   const url = searchParams.get('url')
 
   // 유효하지 않은 URL이 전달되면 400 Bad Request를 반환합니다.
   if (!url) {
-    return new Response(
+    return new NextResponse(
       JSON.stringify({ error: 'URL parameter is required' }),
       {
         status: 400,
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
       .get(url, (response) => {
         const xFrameOptions = response.headers['x-frame-options']
         resolve(
-          new Response(
+          new NextResponse(
             // xFrameOptions 헤더가 설정되어 있지 않으면 'not set'을 반환합니다.
             // 클라이언트는 이 값을 사용하여 해당 URL이 iframe으로 로드될 수 있는지 확인할 수 있습니다.
             JSON.stringify({
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
       })
       .on('error', (e) => {
         resolve(
-          new Response(JSON.stringify({ error: `Error: ${e.message}` }), {
+          new NextResponse(JSON.stringify({ error: `Error: ${e.message}` }), {
             status: 500,
             headers: {
               'Content-Type': 'application/json',

@@ -73,8 +73,15 @@ export async function POST(req: NextRequest) {
     })
 
     if (!targetCategory) {
+      // orderIdx 마지막 index에서 추가
+      const categories = await prisma.category.findMany()
+
+      const lastOrderIndex = categories.sort(
+        (a, b) => b.orderIdx - a.orderIdx
+      )[0].orderIdx
+
       targetCategory = await prisma.category.create({
-        data: { name: category },
+        data: { name: category, orderIdx: lastOrderIndex + 1 },
       })
     }
 
@@ -95,6 +102,12 @@ export async function POST(req: NextRequest) {
         return tagRecord
       })
     )
+    // bookmarks orderIdx 마지막 index에서 추가
+    const bookmarks = await prisma.bookmark.findMany()
+
+    const lastBookmarkOrderIdx = bookmarks.sort(
+      (a, b) => b.orderIdx - a.orderIdx
+    )[0].orderIdx
 
     // 북마크 생성 및 태그 연결
     const newBookmark = await prisma.bookmark.create({
@@ -102,6 +115,7 @@ export async function POST(req: NextRequest) {
         url,
         title: name,
         description,
+        orderIdx: lastBookmarkOrderIdx + 1,
         category: {
           connect: { id: targetCategory.id },
         },

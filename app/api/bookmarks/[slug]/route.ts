@@ -51,8 +51,15 @@ export async function PATCH(
     let categoryId
 
     if (!alreadyExsistCategory) {
+      // orderIdx 마지막 index에서 추가
+      const categories = await prisma.category.findMany()
+
+      const lastOrderIndex = categories.sort(
+        (a, b) => b.orderIdx - a.orderIdx
+      )[0].orderIdx
+
       const newCategory = await prisma.category.create({
-        data: { name: curCategory },
+        data: { name: curCategory, orderIdx: lastOrderIndex + 1 },
       })
 
       categoryId = newCategory.id
