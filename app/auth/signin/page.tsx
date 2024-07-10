@@ -14,7 +14,6 @@ export default function SigninPage() {
   const { register, handleSubmit } = useForm<SigninForm>()
   const router = useRouter()
   const onSubmit = (data: SigninForm) => {
-    console.log(data)
     axios.post(`/api/auth/signin`, data).then(() => {
       router.push('/')
       // todo: 서버 컴포넌트에서 쿠키 변경을 감지 못하여 임의 새로고침 실시

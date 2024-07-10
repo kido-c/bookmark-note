@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
   try {
     const { url, name, tags, category, description }: PostBookmarkRequest =
       await req.json()
+
     const verifiedUser = await getSession()
 
     if (!verifiedUser) {

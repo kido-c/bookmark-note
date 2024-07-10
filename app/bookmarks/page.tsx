@@ -1,6 +1,6 @@
 import React from 'react'
 // import axios from 'axios'
-import { headers } from 'next/headers'
+import { cookies } from 'next/headers'
 
 import BookmarkItem from '@/app/bookmarks/components/BookmarkItem'
 import { GetBookmarksResponse } from '@/app/types/api'
@@ -10,9 +10,12 @@ const getBookmarks = async (): Promise<GetBookmarksResponse[]> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_END_POINT}/bookmarks`,
     {
+      method: 'GET',
       next: { tags: ['bookmarks', 'token'] },
       credentials: 'same-origin',
-      headers: headers(),
+      headers: {
+        Cookie: `${cookies().get('session')?.name}=${cookies().get('session')?.value}`,
+      },
     }
   )
   return response.json()
