@@ -8,8 +8,6 @@ export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json()
 
-    console.log(email, password)
-
     const matchUser = await prisma.user.findFirst({
       where: { email },
     })
@@ -26,7 +24,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ data: matchUser.id }, { status: 201 })
   } catch (error) {
-    console.log(error)
     return NextResponse.json(
       { error: 'Error creating newCategory' },
       { status: 500 }

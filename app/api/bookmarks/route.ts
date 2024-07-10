@@ -50,9 +50,7 @@ export async function POST(req: NextRequest) {
     const { url, name, tags, category, description }: PostBookmarkRequest =
       await req.json()
 
-    console.log(url, name)
     const verifiedUser = await getSession()
-    console.log(verifiedUser)
 
     if (!verifiedUser) {
       return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
@@ -62,7 +60,7 @@ export async function POST(req: NextRequest) {
     const alreadyExsistUrl = await prisma.bookmark.findFirst({
       where: { url },
     })
-    console.log(alreadyExsistUrl)
+
     if (alreadyExsistUrl) {
       return NextResponse.json({ error: 'url already exists' }, { status: 400 })
     }
