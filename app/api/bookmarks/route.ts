@@ -35,7 +35,7 @@ export async function GET() {
         },
       },
     })
-
+    console.log('hit', bookmarks)
     const transformedBookmarks = bookmarks.map((bookmark) => ({
       ...bookmark,
       tags: bookmark.tags.map((bookmarkTag) => bookmarkTag.tag),
@@ -75,6 +75,8 @@ export async function POST(req: NextRequest) {
     if (!targetCategory) {
       // orderIdx 마지막 index에서 추가
       const categories = await prisma.category.findMany()
+
+      console.log('post', categories)
 
       const lastOrderIndex = categories.sort((a, b) => b.orderIdx - a.orderIdx)
 
