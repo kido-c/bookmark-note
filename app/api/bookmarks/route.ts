@@ -8,7 +8,7 @@ import prisma from '../../lib/prisma'
 
 export async function GET() {
   const verifiedUser = await getSession()
-
+  console.log('hit', verifiedUser)
   if (!verifiedUser) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
